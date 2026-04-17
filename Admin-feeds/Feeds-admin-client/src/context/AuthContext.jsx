@@ -11,13 +11,11 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const res = await axios.get(
-                    `${import.meta.env.VITE_API_URL}/auth/status`,
-                    { withCredentials: true }
-                );
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/status`, { withCredentials: true });
+                const data = await res.json();
 
                 setIsAuthenticated(true);
-                setUser(res.data.user); // 👈 store user from cookie
+                setUser(data.user); // 👈 store user from cookie
             } catch (err) {
                 setIsAuthenticated(false);
                 setUser(null);

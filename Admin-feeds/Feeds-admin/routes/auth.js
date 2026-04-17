@@ -59,6 +59,7 @@ auth.post("/login", async (req, res, next) => {
 });
 
 auth.get("/status", async (req, res, next) => {
+  console.log(req.cookies.auth_token);
   const token = req.cookies.auth_token;
 
   if (!token) {
