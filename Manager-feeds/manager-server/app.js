@@ -32,7 +32,7 @@ export const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5174",
+    origin: "https://wbd-1-ygwe.onrender.com",
     credentials: true,
   })
 );
