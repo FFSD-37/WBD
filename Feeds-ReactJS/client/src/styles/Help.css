@@ -1,0 +1,143 @@
+.help-container {
+  background-color: var(--main-bg-color);
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.help-card {
+  background: var(--card-bg);
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  
+  max-width: 760px;
+  width: 100%;
+  padding: 2.5rem;
+  border-radius: 24px;
+  animation: fadeIn 0.8s ease-out;
+  overflow: hidden; 
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.help-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: var(--accent-blue);
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  background: transparent;
+}
+
+.help-subtitle {
+  font-size: 1.4rem;
+  color: #1e293b;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(0, 86, 179, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.help-faq-list {
+  list-style: none;
+  padding: 0;
+}
+
+.help-faq-item {
+  margin-bottom: 1.2rem;
+  width: 50vw;
+  color: var(--text-dark);
+  background: #f1f5f9;
+  border-radius: 16px;
+  padding: 1.2rem;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.help-faq-item:hover {
+  transform: translateY(-2px);
+  background: #fff;
+  border-color: var(--accent-blue);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.help-faq-item b {
+  display: block;
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+  margin-bottom: 0;
+}
+
+.help-faq-question {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.help-faq-toggle {
+  color: var(--accent-blue);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.help-faq-answer {
+  display: block;
+  margin-top: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.help-faq-item-open {
+  border-color: var(--accent-blue);
+}
+
+.help-footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.help-section {
+  margin-top: 2rem;
+}
+
+.help-link {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 700;
+  background: #e9ecef;
+  padding: 6px 14px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.help-link:hover {
+  background: var(--accent-blue);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+}
+
+@media (max-width: 768px) {
+  .help-card {
+    padding: 1.5rem;
+  }
+  
+  .help-faq-item {
+    width: 100%;
+  }
+}

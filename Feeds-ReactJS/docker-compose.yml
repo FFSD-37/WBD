@@ -1,0 +1,35 @@
+services:
+  solr:
+    image: solr:9
+    container_name: feeds-solr
+    command: solr-precreate feeds_users
+    ports:
+      - "8983:8983"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: feeds-backend
+    depends_on:
+      - solr
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      SOLR_BASE_URL: http://solr:8983/solr
+      SOLR_CORE: feeds_users
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: feeds-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+    restart: unless-stopped

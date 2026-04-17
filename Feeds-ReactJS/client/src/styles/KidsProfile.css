@@ -1,0 +1,349 @@
+.kids-profile-page {
+  --kids-shell-bg: linear-gradient(180deg, #fff8e7 0%, #eef8ff 100%);
+  --kids-card-bg: rgba(255, 255, 255, 0.9);
+  --kids-ink: #244168;
+  --kids-soft-ink: #59738f;
+  --kids-yellow: #ffd54f;
+  --kids-pink: #ff8fb1;
+  --kids-blue: #75c8ff;
+  --kids-mint: #8de2c1;
+  min-height: 100vh;
+  padding: 32px 20px 48px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 213, 79, 0.4), transparent 28%),
+    radial-gradient(circle at top right, rgba(117, 200, 255, 0.35), transparent 30%),
+    var(--kids-shell-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.kids-profile-shell {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 980px);
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+
+.kids-profile-decor {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(8px);
+  opacity: 0.65;
+}
+
+.kids-profile-decor-one {
+  width: 180px;
+  height: 180px;
+  top: 90px;
+  left: -40px;
+  background: rgba(255, 143, 177, 0.28);
+}
+
+.kids-profile-decor-two {
+  width: 220px;
+  height: 220px;
+  right: -60px;
+  bottom: 70px;
+  background: rgba(141, 226, 193, 0.26);
+}
+
+.kids-profile-hero,
+.kids-profile-shelf,
+.kids-profile-note {
+  background: var(--kids-card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 32px;
+  box-shadow: 0 24px 60px rgba(56, 91, 137, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+.kids-profile-hero {
+  padding: 28px;
+}
+
+.kids-profile-badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #fff1b8;
+  color: #8f5f00;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.kids-profile-hero-main {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 164px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.kids-profile-avatar-ring {
+  width: 164px;
+  height: 164px;
+  padding: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--kids-yellow), var(--kids-pink), var(--kids-blue));
+  animation: kids-profile-float 4s ease-in-out infinite;
+}
+
+.kids-profile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid rgba(255, 255, 255, 0.95);
+  background: #fff;
+}
+
+.kids-profile-kicker {
+  margin: 0 0 6px;
+  color: #ff7a59;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+}
+
+.kids-profile-title {
+  margin: 0;
+  color: var(--kids-ink);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.kids-profile-username {
+  margin: 8px 0 14px;
+  color: #54708d;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.kids-profile-bio {
+  margin: 0;
+  max-width: 58ch;
+  color: var(--kids-soft-ink);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.kids-profile-actions {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.kids-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 170px;
+  padding: 14px 20px;
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.98rem;
+  font-weight: 800;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.kids-profile-btn:hover {
+  transform: translateY(-2px);
+}
+
+.kids-profile-btn-primary {
+  background: linear-gradient(135deg, #ff9f68, #ff7ca8);
+  color: #fff;
+  box-shadow: 0 16px 30px rgba(255, 124, 168, 0.24);
+}
+
+.kids-profile-btn-secondary {
+  background: #e8f5ff;
+  color: #1e5a87;
+  border: 2px solid #c8e8ff;
+}
+
+.kids-profile-glance {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.kids-profile-glance-card {
+  padding: 24px;
+  border-radius: 28px;
+  color: var(--kids-ink);
+  position: relative;
+  overflow: hidden;
+}
+
+.kids-profile-glance-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -18px -24px auto;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.kids-profile-glance-pink {
+  background: linear-gradient(135deg, #ffe1ea, #ffd0b6);
+}
+
+.kids-profile-glance-blue {
+  background: linear-gradient(135deg, #dff4ff, #dbfff3);
+}
+
+.kids-profile-glance-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.kids-profile-glance-count {
+  margin-top: 18px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1;
+  font-weight: 900;
+}
+
+.kids-profile-glance-card h2 {
+  margin: 12px 0 8px;
+  font-size: 1.2rem;
+}
+
+.kids-profile-glance-card p {
+  margin: 0;
+  max-width: 28ch;
+  color: #486581;
+  line-height: 1.55;
+}
+
+.kids-profile-shelves {
+  display: grid;
+  gap: 20px;
+}
+
+.kids-profile-shelf {
+  padding: 24px;
+}
+
+.kids-profile-shelf-head h3 {
+  margin: 0;
+  color: var(--kids-ink);
+  font-size: 1.35rem;
+}
+
+.kids-profile-shelf-head p {
+  margin: 6px 0 0;
+  color: var(--kids-soft-ink);
+}
+
+.kids-profile-preview-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.kids-profile-preview-item {
+  aspect-ratio: 1;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f9f3ff, #e9f7ff);
+  box-shadow: inset 0 0 0 1px rgba(118, 159, 204, 0.12);
+}
+
+.kids-profile-preview-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.kids-profile-empty {
+  grid-column: 1 / -1;
+  padding: 26px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #fff4c6, #ffe2e9);
+  color: #6a5a29;
+  text-align: center;
+  font-weight: 700;
+}
+
+.kids-profile-note {
+  padding: 20px 24px;
+  color: var(--kids-ink);
+  font-weight: 700;
+  text-align: center;
+}
+
+.kids-profile-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--kids-shell-bg);
+  color: var(--kids-ink);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+@keyframes kids-profile-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 760px) {
+  .kids-profile-page {
+    padding: 20px 14px 36px;
+  }
+
+  .kids-profile-hero {
+    padding: 22px 18px;
+  }
+
+  .kids-profile-hero-main {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .kids-profile-bio {
+    margin: 0 auto;
+  }
+
+  .kids-profile-actions {
+    justify-content: center;
+  }
+
+  .kids-profile-btn {
+    flex: 1 1 100%;
+  }
+
+  .kids-profile-glance {
+    grid-template-columns: 1fr;
+  }
+
+  .kids-profile-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

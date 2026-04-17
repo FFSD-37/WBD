@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+/* FIX ROOT CLIPPING ISSUE */
+html,
+body {
+  height: 100%;
+  overflow: auto;
+}
+
+#root {
+  /* min-height: 100%; */
+  height: 100vh;
+  overflow: visible !important; /* allow modals to escape */
+  position: relative; /* prevent stacking bugs */
+}
+
+/* (optional) keep hiding scrollbar if needed */
+#root::-webkit-scrollbar {
+  display: none;
+}
+
+.normal-theme {
+  --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.channel-theme {
+  --bg-primary: linear-gradient(135deg, #ff0000 0%, #30fb02 100%);
+}
+
+.kid-theme {
+  --bg-primary: linear-gradient(135deg, #f70000 0%, #0004ff 100%);
+}
+
+body {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  min-height: 100vh;
+  width: calc(100vw - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  padding: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  body {
+    width: 100vw;
+    padding: 1rem 0;
+  }
+}

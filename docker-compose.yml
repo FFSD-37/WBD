@@ -1,0 +1,55 @@
+name: feeds-monorepo
+
+services:
+  admin-backend:
+    extends:
+      file: ./Admin-feeds/docker-compose.yml
+      service: backend
+    ports:
+      - "3001:3000"
+
+  admin-frontend:
+    extends:
+      file: ./Admin-feeds/docker-compose.yml
+      service: frontend
+    ports:
+      - "5175:5173"
+    environment:
+      VITE_API_URL: http://localhost:3001
+    depends_on:
+      - admin-backend
+
+  feeds-backend:
+    extends:
+      file: ./Feeds-ReactJS/docker-compose.yml
+      service: backend
+
+  feeds-frontend:
+    extends:
+      file: ./Feeds-ReactJS/docker-compose.yml
+      service: frontend
+    depends_on:
+      - feeds-backend
+
+  manager-backend:
+    extends:
+      file: ./Manager-feeds/docker-compose.yml
+      service: backend
+    depends_on:
+      - manager-mongo
+
+  manager-frontend:
+    extends:
+      file: ./Manager-feeds/docker-compose.yml
+      service: frontend
+    depends_on:
+      - manager-backend
+
+  manager-mongo:
+    extends:
+      file: ./Manager-feeds/docker-compose.yml
+      service: mongo
+
+volumes:
+  mongo_data:
+    name: manager_mongo_data

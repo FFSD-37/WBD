@@ -1,0 +1,337 @@
+/* === BASE === */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.connect-body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, #f0f4ff, #faf7ff);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  width: 80vw;
+}
+
+.connect-container {
+  width: min(1200px, 95%);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  border-radius: 24px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.connect-container.fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.connect-container.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* === HEADER === */
+.connect-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.connect-title {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+/* === TOGGLE === */
+.connect-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.connect-toggle-btn {
+  padding: 0.6rem 1.4rem;
+  border-radius: 12px;
+  border: 2px solid #667eea;
+  background: transparent;
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+}
+
+.connect-toggle-btn.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.connect-toggle-btn:hover {
+  transform: translateY(-1.5px);
+}
+
+/* === SEARCH & FILTER === */
+.connect-searchbar {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.8rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 5;
+  border-radius: 16px;
+  padding: 0.8rem 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.connect-search-input {
+  flex: 1 1 300px;
+  padding: 0.9rem 1.2rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: 0.3s;
+  width: 100%;
+  max-width: 550px;
+}
+
+.connect-search-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+.connect-filter {
+  padding: 0.8rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #4a5568;
+  background: white;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.connect-filter:focus {
+  border-color: #667eea;
+  outline: none;
+}
+
+/* === RESULTS === */
+.connect-results {
+  margin-top: 1.5rem;
+}
+
+.connect-loading,
+.connect-empty {
+  text-align: center;
+  color: #718096;
+  padding: 2.5rem 0;
+  font-size: 1rem;
+}
+
+/* === GRID === */
+.connect-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.3rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* === ITEM CARD === */
+.connect-item {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 2px solid transparent;
+  padding: 1.4rem 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.connect-item:hover {
+  transform: translateY(-3px);
+  border-color: #667eea;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.12);
+}
+
+/* === PROFILE SECTION === */
+.connect-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.connect-avatar {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 3px solid #e2e8f0;
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.connect-item:hover .connect-avatar {
+  transform: scale(1.05);
+  border-color: #667eea;
+}
+
+.connect-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.connect-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #1a202c;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  word-break: break-word;
+}
+
+.connect-category-icon svg {
+  font-size: 1.1rem;
+}
+
+.connect-username {
+  color: #718096;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.connect-stats {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.83rem;
+  color: #4a5568;
+  margin-top: 0.3rem;
+  flex-wrap: wrap;
+}
+
+/* === FOLLOW BUTTONS === */
+.connect-follow-btn {
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  padding: 0.7rem 1.3rem;
+  min-width: 110px;
+}
+
+.connect-btn-default {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 5px 14px rgba(102, 126, 234, 0.25);
+}
+
+.connect-btn-default:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+.connect-btn-following {
+  background: #edf2f7;
+  color: #2d3748;
+}
+
+.connect-btn-following:hover {
+  background: #e2e8f0;
+  transform: scale(1.05);
+}
+
+.connect-btn-requested {
+  background: #fff4d6;
+  color: #b7791f;
+  cursor: default;
+}
+
+/* === RESPONSIVE BREAKPOINTS === */
+@media (max-width: 1024px) {
+  .connect-container {
+    padding: 1.8rem;
+  }
+
+  .connect-title {
+    font-size: 2rem;
+  }
+
+  .connect-list {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .connect-body {
+    padding: 1rem;
+  }
+
+  .connect-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .connect-left {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .connect-follow-btn {
+    width: 80%;
+    margin-top: 0.5rem;
+  }
+
+  .connect-searchbar {
+    position: static;
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .connect-title {
+    font-size: 1.5rem;
+  }
+
+  .connect-item {
+    padding: 1rem;
+  }
+
+  .connect-follow-btn {
+    width: 100%;
+  }
+
+  .connect-search-input {
+    width: 100%;
+  }
+}

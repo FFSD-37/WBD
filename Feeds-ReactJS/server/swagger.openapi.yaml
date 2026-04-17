@@ -1,0 +1,1603 @@
+openapi: 3.0.3
+info:
+  title: Feeds Server API
+  version: 1.0.0
+  description: Standalone Swagger/OpenAPI documentation for the Feeds main backend.
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: Public Auth
+  - name: Account
+  - name: Profile
+  - name: Feed
+  - name: Posts
+  - name: Reels
+  - name: Channel
+  - name: Connect
+  - name: Chat
+  - name: Notifications
+  - name: Kids
+  - name: Payment
+  - name: Utility
+components:
+  securitySchemes:
+    userCookieAuth:
+      type: apiKey
+      in: cookie
+      name: uuid
+    channelCookieAuth:
+      type: apiKey
+      in: cookie
+      name: cuid
+  schemas:
+    GenericPayload:
+      type: object
+      additionalProperties: true
+    SignupPayload:
+      type: object
+      properties:
+        fullName: { type: string }
+        username: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        password: { type: string }
+        dob: { type: string }
+        profileImageUrl: { type: string }
+        bio: { type: string }
+        gender: { type: string }
+        acctype: { type: string }
+        parentalPassword: { type: string }
+        confirmParentalPassword: { type: string }
+        terms: { type: boolean }
+    SendOtpPayload:
+      type: object
+      properties:
+        email: { type: string }
+    VerifyOtpPayload:
+      type: object
+      properties:
+        email: { type: string }
+        otp: { type: string }
+        action: { type: string }
+    UpdatePassPayload:
+      type: object
+      properties:
+        email: { type: string }
+        new_password: { type: string }
+        confirm_password: { type: string }
+    AdminPassUpdatePayload:
+      type: object
+      properties:
+        otp: { type: string }
+        newPassword: { type: string }
+        confirmPassword: { type: string }
+    FetchUserOverlayPayload:
+      type: object
+      properties:
+        user_id: { type: string }
+        username: { type: string }
+        email: { type: string }
+    AtinJobPayload:
+      type: object
+      additionalProperties: true
+    ContactPayload:
+      type: object
+      properties:
+        name: { type: string }
+        email: { type: string }
+        subject: { type: string }
+        message: { type: string }
+    DelAccPayload:
+      type: object
+      properties:
+        password: { type: string }
+    CreatePostPayload:
+      type: object
+      properties:
+        postType: { type: string }
+        mediaUrl: { type: string }
+        caption: { type: string }
+    FinalizePostPayload:
+      type: object
+      properties:
+        profileImageUrl: { type: string }
+        type: { type: string }
+        caption: { type: string }
+    CheckoutPayload:
+      type: object
+      properties:
+        plan_name: { type: string }
+    VerifyPaymentPayload:
+      type: object
+      properties:
+        razorpay_payment_id: { type: string }
+        razorpay_order_id: { type: string }
+        razorpay_signature: { type: string }
+    UpdateUserDetailsPayload:
+      type: object
+      additionalProperties: true
+    FollowEntityPayload:
+      type: object
+      additionalProperties: true
+    ShareFinalPostPayload:
+      type: object
+      additionalProperties: true
+    ReportPayload:
+      type: object
+      additionalProperties: true
+    PostLikePayload:
+      type: object
+      additionalProperties: true
+    CommentPayload:
+      type: object
+      properties:
+        postId: { type: string }
+        text: { type: string }
+        parentId: { type: string }
+    ReportPostPayload:
+      type: object
+      additionalProperties: true
+    ReportChatPayload:
+      type: object
+      additionalProperties: true
+    CommentLikePayload:
+      type: object
+      additionalProperties: true
+    BlockPayload:
+      type: object
+      additionalProperties: true
+    PostActionPayload:
+      type: object
+      properties:
+        id: { type: string }
+    UpdateChannelDetailsPayload:
+      type: object
+      additionalProperties: true
+    ChannelPostPayload:
+      type: object
+      additionalProperties: true
+    ChannelLikePayload:
+      type: object
+      additionalProperties: true
+    ChannelSavePayload:
+      type: object
+      additionalProperties: true
+    ChannelCommentPayload:
+      type: object
+      additionalProperties: true
+    FollowChannelPayload:
+      type: object
+      additionalProperties: true
+    KidsChangePasswordPayload:
+      type: object
+      properties:
+        currentPassword: { type: string }
+        newPassword: { type: string }
+    KidsParentalPasswordPayload:
+      type: object
+      properties:
+        currentParentalPassword: { type: string }
+        newParentalPassword: { type: string }
+    KidsTimeControlPayload:
+      type: object
+      additionalProperties: true
+    GameRewardPayload:
+      type: object
+      additionalProperties: true
+    PostUploadPayload:
+      type: object
+      properties:
+        title: { type: string }
+        url: { type: string }
+        content: { type: string }
+        type: { type: string }
+paths:
+  /fake:
+    get:
+      tags: [Utility]
+      summary: Demo route that intentionally throws an error
+      responses:
+        '500': { description: Simulated error }
+  /signup:
+    post:
+      tags: [Public Auth]
+      summary: Register a user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SignupPayload' }
+      responses:
+        '201': { description: Account created }
+  /sendotp:
+    post:
+      tags: [Public Auth]
+      summary: Send OTP for password recovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SendOtpPayload' }
+      responses:
+        '200': { description: OTP sent }
+  /verifyotp:
+    post:
+      tags: [Public Auth]
+      summary: Verify OTP for password recovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VerifyOtpPayload' }
+      responses:
+        '200': { description: OTP verified }
+  /updatepass:
+    post:
+      tags: [Public Auth]
+      summary: Update password using recovery flow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdatePassPayload' }
+      responses:
+        '200': { description: Password updated }
+  /imagKitauth:
+    get:
+      tags: [Utility]
+      summary: Get ImageKit authentication payload
+      responses:
+        '200': { description: ImageKit auth payload }
+  /fpadmin:
+    get:
+      tags: [Public Auth]
+      summary: Send admin password reset OTP
+      responses:
+        '200': { description: OTP sent }
+  /updatepassadmin:
+    post:
+      tags: [Public Auth]
+      summary: Update admin password using OTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AdminPassUpdatePayload' }
+      responses:
+        '200': { description: Admin password updated }
+  /fetchUserOverlay:
+    post:
+      tags: [Public Auth]
+      summary: Fetch overlay user details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/FetchUserOverlayPayload' }
+      responses:
+        '200': { description: Overlay payload }
+  /atin_job:
+    post:
+      tags: [Public Auth]
+      summary: Alternate login flow used by the app
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AtinJobPayload' }
+      responses:
+        '200': { description: Login result }
+  /adminLogin:
+    post:
+      tags: [Public Auth]
+      summary: Login entry point for admin dashboard access
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                password: { type: string }
+      responses:
+        '200': { description: Admin login result }
+  /healthCheck:
+    get:
+      tags: [Utility]
+      summary: Health-check endpoint
+      responses:
+        '200': { description: Server healthy }
+  /:
+    get:
+      tags: [Account]
+      summary: Redirect root request to login
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '302': { description: Redirect response }
+  /verify:
+    get:
+      tags: [Account]
+      summary: Verify authenticated session and return actor metadata
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Session verified }
+  /login:
+    get:
+      tags: [Account]
+      summary: Login route placeholder for authenticated flow
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Login payload }
+  /logout:
+    post:
+      tags: [Account]
+      summary: Logout current user or channel session
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Logged out }
+  /contact:
+    post:
+      tags: [Account]
+      summary: Submit contact/help request
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ContactPayload' }
+      responses:
+        '200': { description: Contact request saved }
+  /payment:
+    get:
+      tags: [Payment]
+      summary: Get payment summary or details for authenticated actor
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Payment details }
+    post:
+      tags: [Payment]
+      summary: Create checkout order
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CheckoutPayload' }
+      responses:
+        '200': { description: Checkout order created }
+  /checkout_razorpay:
+    post:
+      tags: [Payment]
+      summary: Create Razorpay checkout order
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CheckoutPayload' }
+      responses:
+        '200': { description: Checkout created }
+  /verify_payment:
+    post:
+      tags: [Payment]
+      summary: Verify completed payment
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VerifyPaymentPayload' }
+      responses:
+        '200': { description: Payment verified }
+  /delacc:
+    post:
+      tags: [Account]
+      summary: Delete authenticated account
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password: { type: string }
+      responses:
+        '200': { description: Account deleted }
+  /home:
+    get:
+      tags: [Feed]
+      summary: Get authenticated user feed/home data
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Feed payload }
+  /stories:
+    get:
+      tags: [Feed]
+      summary: Get stories feed
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Stories payload }
+  /ads:
+    get:
+      tags: [Feed]
+      summary: Get ads for main feed
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Ads payload }
+  /connect:
+    get:
+      tags: [Connect]
+      summary: Get connect or discovery screen data
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Connect data }
+  /connect/search:
+    get:
+      tags: [Connect]
+      summary: Search users or channels for connect page
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Search results }
+  /connect/follow:
+    post:
+      tags: [Connect]
+      summary: Follow entity from unified connect module
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/FollowEntityPayload' }
+      responses:
+        '200': { description: Entity followed }
+  /connect/unfollow:
+    post:
+      tags: [Connect]
+      summary: Unfollow entity from unified connect module
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/FollowEntityPayload' }
+      responses:
+        '200': { description: Entity unfollowed }
+  /follow/{username}:
+    post:
+      tags: [Connect]
+      summary: Follow a user
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Follow result }
+  /follow-request/accept/{username}:
+    post:
+      tags: [Connect]
+      summary: Accept a pending follow request
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Request accepted }
+  /unfollow/{username}:
+    post:
+      tags: [Connect]
+      summary: Unfollow a user
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Unfollow result }
+  /unrequest/{username}:
+    post:
+      tags: [Connect]
+      summary: Cancel a pending follow request
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Request canceled }
+  /friends:
+    get:
+      tags: [Connect]
+      summary: Get friend list
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Friend list }
+  /settings:
+    get:
+      tags: [Account]
+      summary: Get settings page data
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Settings payload }
+  /profile/{username}:
+    get:
+      tags: [Profile]
+      summary: Get public/basic post listing for a user profile
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: User profile posts }
+  /report/{username}:
+    post:
+      tags: [Profile]
+      summary: Report a user account
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Report submitted }
+  /report_channel/{username}:
+    post:
+      tags: [Channel]
+      summary: Report a channel account
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel report submitted }
+  /profile/getbasic/{username}:
+    get:
+      tags: [Profile]
+      summary: Get basic profile details and access flags
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Basic profile payload }
+  /profile/sensitive/{username}:
+    get:
+      tags: [Profile]
+      summary: Get sensitive profile data such as posts, saved, liked, and social lists
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Sensitive profile payload }
+  /isfriend/{username}:
+    get:
+      tags: [Profile]
+      summary: Get relationship state between viewer and target user
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Relationship payload }
+  /edit_profile:
+    get:
+      tags: [Profile]
+      summary: Get editable profile information
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Profile edit data }
+  /updateUserDetails:
+    post:
+      tags: [Profile]
+      summary: Update user profile details
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateUserDetailsPayload' }
+      responses:
+        '200': { description: Profile updated }
+  /togglePublicPrivate:
+    get:
+      tags: [Profile]
+      summary: Toggle public or private visibility
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Visibility toggled }
+  /block:
+    get:
+      tags: [Profile]
+      summary: Get blocked users list
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Blocked users }
+  /block/{username}:
+    post:
+      tags: [Profile]
+      summary: Block or unblock a user
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Block action result }
+  /chat/{username}:
+    get:
+      tags: [Chat]
+      summary: Get chat thread with a user
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Chat thread }
+    delete:
+      tags: [Chat]
+      summary: Delete chat thread with a user
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Chat deleted }
+  /chat/{username}/seen:
+    post:
+      tags: [Chat]
+      summary: Mark chat thread as seen
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Chat marked seen }
+  /report_chat:
+    post:
+      tags: [Chat]
+      summary: Report a chat message or thread
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReportChatPayload' }
+      responses:
+        '200': { description: Chat report submitted }
+  /notifications:
+    get:
+      tags: [Notifications]
+      summary: Get notifications summary
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Notification data }
+  /GetAllNotifications:
+    get:
+      tags: [Notifications]
+      summary: Get complete notifications list
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Notifications list }
+  /notifications/mark-seen:
+    post:
+      tags: [Notifications]
+      summary: Mark notifications as seen
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Notifications marked seen }
+  /unseen-counts:
+    get:
+      tags: [Notifications]
+      summary: Get unseen notification and chat counts
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Unseen counts }
+  /notification:
+    post:
+      tags: [Notifications]
+      summary: Create a notification manually
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReportPayload' }
+      responses:
+        '200': { description: Notification created }
+  /create_post:
+    get:
+      tags: [Posts]
+      summary: Get create-post data
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Create-post data }
+  /create_post_2:
+    get:
+      tags: [Posts]
+      summary: Get secondary create-post data
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Secondary create-post data }
+  /createpost:
+    post:
+      tags: [Posts]
+      summary: Create a user post draft or entry
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreatePostPayload' }
+      responses:
+        '200': { description: Post created }
+  /finalSubmit:
+    post:
+      tags: [Posts]
+      summary: Finalize a post before publish
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/FinalizePostPayload' }
+      responses:
+        '200': { description: Finalization result }
+  /shareFinalPost:
+    post:
+      tags: [Posts]
+      summary: Upload or publish finalized post
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ShareFinalPostPayload' }
+      responses:
+        '200': { description: Post published }
+  /posts/like:
+    post:
+      tags: [Posts]
+      summary: Like or unlike a standard post or reel
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostLikePayload' }
+      responses:
+        '200': { description: Like state updated }
+  /comment:
+    post:
+      tags: [Posts]
+      summary: Create a comment on a user post
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CommentPayload' }
+      responses:
+        '200': { description: Comment added }
+  /comment/like/{id}:
+    post:
+      tags: [Posts]
+      summary: Like a comment
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Comment like toggled }
+  /report_post:
+    post:
+      tags: [Posts]
+      summary: Report a post
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReportPostPayload' }
+      responses:
+        '200': { description: Post report submitted }
+  /delete/{id}:
+    post:
+      tags: [Posts]
+      summary: Delete a user post
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Post deleted }
+  /archive/{id}:
+    post:
+      tags: [Posts]
+      summary: Archive a user post
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Post archived }
+  /unarchive/{id}:
+    post:
+      tags: [Posts]
+      summary: Unarchive a user post
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Post unarchived }
+  /unsave/{id}:
+    post:
+      tags: [Posts]
+      summary: Unsave a post
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Post unsaved }
+  /reels:
+    get:
+      tags: [Reels]
+      summary: Get paginated reels feed
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Reels feed }
+  /likereel:
+    post:
+      tags: [Reels]
+      summary: Like a reel or channel reel
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostLikePayload' }
+      responses:
+        '200': { description: Reel liked }
+  /unlikereel:
+    post:
+      tags: [Reels]
+      summary: Unlike a reel or channel reel
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostLikePayload' }
+      responses:
+        '200': { description: Reel unliked }
+  /savereel:
+    post:
+      tags: [Reels]
+      summary: Save a reel or channel reel
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostLikePayload' }
+      responses:
+        '200': { description: Reel saved }
+  /unsavereel:
+    post:
+      tags: [Reels]
+      summary: Unsave a reel or channel reel
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostLikePayload' }
+      responses:
+        '200': { description: Reel unsaved }
+  /commentreel:
+    post:
+      tags: [Reels]
+      summary: Comment on a reel
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CommentPayload' }
+      responses:
+        '200': { description: Reel comment added }
+  /replyreel:
+    post:
+      tags: [Reels]
+      summary: Reply to a reel comment
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CommentPayload' }
+      responses:
+        '200': { description: Reel reply added }
+  /reelcomments/{id}:
+    get:
+      tags: [Reels]
+      summary: Get reel comments
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Reel comments }
+  /create_channel:
+    get:
+      tags: [Channel]
+      summary: Get create-channel page data
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Channel signup data }
+  /signupChannel:
+    post:
+      tags: [Channel]
+      summary: Register a new channel
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SignupPayload' }
+      responses:
+        '200': { description: Channel created }
+  /postloginchannel:
+    post:
+      tags: [Channel]
+      summary: Login channel account
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AtinJobPayload' }
+      responses:
+        '200': { description: Channel login result }
+  /getchannel/{channelName}:
+    get:
+      tags: [Channel]
+      summary: Get channel profile or details
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: channelName
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel details }
+  /getchannelposts:
+    get:
+      tags: [Channel]
+      summary: Get channel posts list
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Channel posts }
+  /edit_channel:
+    get:
+      tags: [Channel]
+      summary: Get editable channel profile data
+      security:
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Edit channel data }
+  /updateChannelDetails:
+    post:
+      tags: [Channel]
+      summary: Update channel profile details
+      security:
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateChannelDetailsPayload' }
+      responses:
+        '200': { description: Channel updated }
+  /getAllChannelPosts:
+    get:
+      tags: [Channel]
+      summary: Get all public channel posts
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Channel posts feed }
+  /channelPost/{id}:
+    get:
+      tags: [Channel]
+      summary: Get single channel post with overlay data
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel post payload }
+  /channel/like:
+    post:
+      tags: [Channel]
+      summary: Like or unlike a channel post
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ChannelLikePayload' }
+      responses:
+        '200': { description: Like state updated }
+  /channel/save:
+    post:
+      tags: [Channel]
+      summary: Save or unsave a channel post
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ChannelSavePayload' }
+      responses:
+        '200': { description: Save state updated }
+  /channel/comment:
+    post:
+      tags: [Channel]
+      summary: Comment on a channel post
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ChannelCommentPayload' }
+      responses:
+        '200': { description: Comment added }
+  /channel/comment/replies/{commentId}:
+    get:
+      tags: [Channel]
+      summary: Get paginated replies for a channel-post comment
+      security:
+        - userCookieAuth: []
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: commentId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Replies payload }
+  /follow_channel/{channelName}:
+    post:
+      tags: [Channel]
+      summary: Follow a channel
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: channelName
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel followed }
+  /unfollow_channel/{channelName}:
+    post:
+      tags: [Channel]
+      summary: Unfollow a channel
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: channelName
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel unfollowed }
+  /channel/archive/{postId}:
+    post:
+      tags: [Channel]
+      summary: Archive a channel post
+      security:
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel post archived }
+  /channel/unarchive/{postId}:
+    post:
+      tags: [Channel]
+      summary: Unarchive a channel post
+      security:
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel post unarchived }
+  /channel/delete/{postId}:
+    delete:
+      tags: [Channel]
+      summary: Delete a channel post
+      security:
+        - channelCookieAuth: []
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Channel post deleted }
+  /channel/settings:
+    get:
+      tags: [Channel]
+      summary: Get channel settings data
+      security:
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Channel settings }
+  /channel/deactivate:
+    post:
+      tags: [Channel]
+      summary: Deactivate channel
+      security:
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostActionPayload' }
+      responses:
+        '200': { description: Channel deactivated }
+  /channel/delete-account:
+    delete:
+      tags: [Channel]
+      summary: Permanently delete channel account
+      security:
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Channel account deleted }
+  /channel/post:
+    post:
+      tags: [Channel]
+      summary: Upload a channel post
+      security:
+        - channelCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ChannelPostPayload' }
+      responses:
+        '200': { description: Channel post uploaded }
+  /channel/categories:
+    get:
+      tags: [Channel]
+      summary: Get available channel post categories
+      security:
+        - channelCookieAuth: []
+      responses:
+        '200': { description: Channel categories }
+  /checkParentPassword:
+    post:
+      tags: [Kids]
+      summary: Verify parental password for kids account actions
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password: { type: string }
+      responses:
+        '200': { description: Password verification result }
+  /kidshome:
+    get:
+      tags: [Kids]
+      summary: Get kids-only home feed
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Kids home feed }
+  /kids/change-password:
+    post:
+      tags: [Kids]
+      summary: Change kids account password
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/KidsChangePasswordPayload' }
+      responses:
+        '200': { description: Password changed }
+  /kids/change-parental-password:
+    post:
+      tags: [Kids]
+      summary: Change parental password for kids account
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/KidsParentalPasswordPayload' }
+      responses:
+        '200': { description: Parental password changed }
+  /kids/time-control:
+    get:
+      tags: [Kids]
+      summary: Get kids time-control settings
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Time-control settings }
+    post:
+      tags: [Kids]
+      summary: Update kids time-control settings
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/KidsTimeControlPayload' }
+      responses:
+        '200': { description: Time-control updated }
+  /kids/deactivate:
+    post:
+      tags: [Kids]
+      summary: Deactivate a kids account
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostActionPayload' }
+      responses:
+        '200': { description: Kids account deactivated }
+  /getCoins:
+    get:
+      tags: [Utility]
+      summary: Get current coin balance
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Coin balance }
+  /games/reward:
+    post:
+      tags: [Utility]
+      summary: Claim game-play reward
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Reward claimed }
+  /dailyUsage:
+    get:
+      tags: [Utility]
+      summary: Get daily usage statistics
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Daily usage data }
+  /activityLog:
+    get:
+      tags: [Utility]
+      summary: Get activity log
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Activity log data }
+  /post/{id}:
+    get:
+      tags: [Posts]
+      summary: Get single post by public id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Post payload }
+    delete:
+      tags: [Posts]
+      summary: Delete post by public id
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Post deleted }
+  /post:
+    post:
+      tags: [Posts]
+      summary: Upload a post through post module
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PostUploadPayload' }
+      responses:
+        '200': { description: Post uploaded }
+  /post/suggestedPost/get:
+    get:
+      tags: [Posts]
+      summary: Get suggested user posts
+      responses:
+        '200': { description: Suggested posts }
+  /post/suggested/reels:
+    get:
+      tags: [Posts]
+      summary: Get suggested reels
+      responses:
+        '200': { description: Suggested reels }
+  /post/liked/{id}:
+    post:
+      tags: [Posts]
+      summary: Toggle like on post module item
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Like toggled }
+  /post/saved/{id}:
+    post:
+      tags: [Posts]
+      summary: Toggle save on post module item
+      security:
+        - userCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Save toggled }
+  /home/getFriends:
+    get:
+      tags: [Feed]
+      summary: Get friends for home submodule
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Friends list }
+  /home/getAllPosts:
+    get:
+      tags: [Feed]
+      summary: Get suggested feed posts for home submodule
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Suggested posts }
+  /home/ads:
+    get:
+      tags: [Feed]
+      summary: Get ads for home submodule
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Ads payload }
+  /home/userpost_comments:
+    post:
+      tags: [Feed]
+      summary: Get comments for user post in home module
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CommentPayload' }
+      responses:
+        '200': { description: Comments payload }
+  /home/userpost_reply:
+    post:
+      tags: [Feed]
+      summary: Reply to user-post comment in home module
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CommentPayload' }
+      responses:
+        '200': { description: Reply created }
+  /home/comment_report:
+    post:
+      tags: [Feed]
+      summary: Report a comment from home module
+      security:
+        - userCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReportPostPayload' }
+      responses:
+        '200': { description: Comment reported }
+  /home/getChannels:
+    get:
+      tags: [Feed]
+      summary: Get followed or recommended channels for home module
+      security:
+        - userCookieAuth: []
+      responses:
+        '200': { description: Channel list }

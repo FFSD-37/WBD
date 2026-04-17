@@ -1,0 +1,27 @@
+.alert {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    animation: fadeIn 0.5s ease-in-out;
+    background-color: #c6e17a;
+    width:auto;
+}
+
+.close-btn {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 10px;
+    color: inherit;
+    background: none;
+    border: none;
+}
+
+.close-btn:hover {
+    color: black;
+}

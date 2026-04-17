@@ -1,0 +1,372 @@
+.kids_home_main {
+  display: grid;
+  grid-template-columns: 200px auto 60px;
+  width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fffbf1, #ffe9f7);
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  padding-right: 60px;
+}
+
+.kids_home_left_section {
+  grid-column: 1/2;
+  background: #fffae6;
+  border-right: 4px solid #ffd16a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 5px;
+  position: fixed;
+  left: 0;
+  height: 100vh;
+}
+
+.kids_home_right_spacer {
+  width: 60px;
+  background: transparent;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+/* LOGO */
+.kids_home_logo_class {
+  cursor: pointer;
+  transition: 0.3s ease;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.kids_home_logo_class:hover {
+  transform: scale(1.05);
+  background: #fff3b3;
+}
+
+.kids_home_logo {
+  width: 80px;
+  border-radius: 18px;
+  box-shadow: 0 4px 8px #ffd76d;
+}
+
+/* FOOTER */
+.kids_home_footer {
+  margin-top: auto;
+  font-size: 12px;
+  text-align: center;
+  color: #444;
+  padding-bottom: 15px;
+}
+
+.kids_home_footer a {
+  color: #ff7f50;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* FEED SECTION */
+.kids_home_feed_section {
+  grid-column: 2/3;
+  margin-left: 20%;
+  padding: 20px;
+  padding-right: 40px;
+}
+
+.kids_home_title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ff6b6b;
+  text-align: center;
+}
+
+.kids_home_divider {
+  width: 180px;
+  height: 6px;
+  background: #ffc94d;
+  border-radius: 10px;
+  margin: 10px auto 25px;
+}
+
+/* POST CARD */
+.kids_home_post_card {
+  background: #ffffff;
+  padding: 18px;
+  margin: 20px auto;
+  border-radius: 22px;
+  max-width: 560px;
+  box-shadow: 0 6px 12px rgba(255, 200, 50, 0.3);
+  transition: 0.3s ease;
+  position: relative;
+  border: 3px solid #ffe599;
+}
+
+/* POST HEADER */
+.kids_home_post_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kids_home_post_channel {
+  font-weight: bold;
+  color: #4b7bec;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+/* DROPDOWN MENU */
+.kids_home_post_menu_trigger {
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.kids_home_dropdown_menu {
+  position: absolute;
+  top: 45px;
+  right: 15px;
+  background: #fff7cc;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  width: 160px;
+  z-index: 20;
+  animation: dropdownFade 0.2s ease;
+}
+
+.kids_home_post_media {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 18px;
+  margin-top: 12px;
+  box-shadow: 0 4px 10px rgba(250, 200, 20, 0.3);
+  background: #fffbe8;
+}
+
+/* VIDEO WRAPPER */
+.kids_home_video_wrapper {
+  position: relative;
+  background: #fffbe0;
+}
+
+.kids_home_play_button {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 46px;
+  color: white;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ACTIONS */
+.kids_home_post_actions {
+  display: flex;
+  gap: 26px;
+  margin-top: 14px;
+}
+
+.kids_home_action_item {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+/* TIMESTAMP */
+.kids_home_post_time {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #777;
+}
+
+/* REPORT MODAL */
+.kids_home_report_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.kids_home_report_modal {
+  background: #fffceb;
+  padding: 22px;
+  width: 320px;
+  border-radius: 24px;
+  animation: modalPop 0.25s ease;
+}
+
+/* Report List */
+.kids_home_report_options {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+.kids_home_report_options li {
+  padding: 12px 12px;
+  background: #fff1b8;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+.kids_home_report_options li:hover {
+  background: #ffe082;
+}
+
+.kids_home_no_posts,
+.kids_home_loading,
+.kids_home_end_text {
+  text-align: center;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 16px;
+  color: #555;
+  font-weight: 500;
+}
+
+/* END TEXT */
+.kids_home_end_text {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+/* POST CAPTION */
+.kids_home_post_caption {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+  padding: 0 4px;
+  white-space: pre-wrap;
+}
+
+.kids_home_dropdown_item {
+  padding: 12px 14px;
+  cursor: pointer;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.kids_home_dropdown_item:hover {
+  background: #ffeaa7;
+}
+
+/* MODAL HEADER */
+.kids_home_modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+/* CLOSE BUTTON */
+.kids_home_close_btn {
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #ff4d4d;
+  padding: 0 4px;
+  transition: 0.2s ease;
+}
+
+.kids_home_close_btn:hover {
+  transform: scale(1.2);
+}
+
+/* MODAL TITLE */
+.kids_home_modal_title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.kids_home_play_button {
+  font-size: 42px;
+  padding: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+  .kids_home_play_button {
+    font-size: 34px;
+    top: 50%;
+    left: 50%;
+  }
+}
+
+/* RESPONSIVE  */
+
+@media (max-width: 1024px) {
+  .kids_home_feed_section {
+    width: 70%;
+    margin-left: 22%;
+  }
+}
+
+@media (max-width: 768px) {
+  .kids_home_main {
+    flex-direction: column;
+    padding-right: 0;
+    padding-bottom: 60px; /* Right sidebar becomes bottom bar */
+  }
+
+  .kids_home_left_section {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    min-width: 100%;
+    bottom: 0;
+    top: unset;
+    flex-direction: row;
+    justify-content: center;
+    border-right: none;
+    border-top: 4px solid #ffd16a;
+  }
+
+  .kids_home_logo {
+    width: 55px;
+  }
+
+  .kids_home_feed_section {
+    width: 100%;
+    margin: auto;
+    padding: 15px;
+  }
+
+  .kids_home_post_card {
+    max-width: 95%;
+  }
+
+  .kids_home_post_media {
+    max-height: 65vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .kids_home_title {
+    font-size: 26px;
+  }
+
+  .kids_home_post_actions {
+    gap: 16px;
+  }
+
+  .kids_home_post_card {
+    padding: 12px;
+  }
+}

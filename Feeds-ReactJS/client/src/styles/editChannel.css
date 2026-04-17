@@ -1,0 +1,352 @@
+.edit_channel_container {
+  width: 40rem;
+  margin: 3.5rem auto;
+  padding: 2.8rem 2.5rem;
+  background: rgba(30, 30, 30, 0.8);
+  color: #fff;
+  backdrop-filter: blur(12px);
+  border-radius: 1.4rem;
+  box-shadow: 0 0 3rem rgba(0, 0, 0, 0.4);
+  transition: 0.25s ease;
+}
+
+.edit_channel_heading {
+  text-align: center;
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 2.4rem;
+  color: #ffcd38;
+  text-shadow: 0 0 12px rgba(255, 205, 56, 0.3);
+}
+
+/* Logo Section */
+.edit_channel_logo-section {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.edit_channel_logo {
+  width: 8.5rem;
+  height: 8.5rem;
+  margin: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffcd38;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 0 16px rgba(255, 205, 56, 0.25);
+}
+
+.edit_channel_logo:hover {
+  transform: scale(1.07);
+}
+
+.edit_channel_logo-btn {
+  margin-top: 1rem;
+  background: #ffcd38;
+  color: #1d1d1d;
+  border: none;
+  padding: 0.7rem 1.6rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.edit_channel_logo-btn:hover {
+  background: #ffd95f;
+}
+
+/* Fields */
+.edit_channel_form h4 {
+  margin-bottom: 0.35rem;
+  font-size: 1.1rem;
+  color: #dcdcdc;
+}
+
+.edit_channel_field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #1a1a1a;
+  padding: 0.9rem 1.2rem;
+  border-radius: 0.8rem;
+  margin-bottom: 1.4rem;
+  border: 1px solid #2d2d2d;
+  transition: 0.25s ease;
+}
+
+.edit_channel_field input,
+.edit_channel_field textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f5f5f5;
+  font-size: 1rem;
+  resize: none;
+}
+
+.edit_channel_field a {
+  color: #ffcd38;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.4rem;
+  transition: 0.25s ease;
+}
+
+.edit_channel_field a:hover {
+  background: #ffcd38;
+  color: #111;
+}
+
+/* LINKS */
+.edit_channel_links {
+  background: rgba(255, 205, 56, 0.04);
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  border-left: 3px solid #ffcd38;
+  margin-bottom: 0.8rem;
+}
+
+.edit_channel_links .edit_channel_field {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.55rem !important;
+  margin-bottom: 0.45rem;
+  background: #1c1c1c;
+  border: 1px solid #2a2a2a;
+  border-radius: 0.45rem;
+  gap: 6px;
+}
+
+.edit_channel_links input {
+  padding: 0.3rem 0.4rem !important;
+  font-size: 0.85rem !important;
+  height: 1.9rem;
+}
+
+.edit_channel_removeLink {
+  background: #d63031;
+  color: #fff;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.edit_channel_removeLink:hover {
+  background: #ff2f2f;
+}
+
+.edit_channel_addLink {
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  background: #ffcd38;
+  color: #1a1a1a;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.edit_channel_error {
+  font-size: 0.7rem;
+  margin-top: -0.2rem;
+  color: #ff4d4d;
+}
+
+/* Terms */
+.edit_channel_terms {
+  margin: 1.5rem 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.edit_channel_terms-link {
+  color: #ffcd38;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.edit_channel_terms-link:hover {
+  text-decoration: underline;
+}
+
+/* Save Button */
+.edit_channel_submit-btn {
+  width: 100%;
+  background: #ffcd38;
+  color: #1a1a1a;
+  border: none;
+  padding: 1rem;
+  border-radius: 0.9rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 6px 16px rgba(255, 205, 56, 0.25);
+}
+
+.edit_channel_submit-btn:hover {
+  background: #ffd95f;
+}
+
+.edit_channel_submit-btn.saved {
+  background: #27ae60;
+  color: white;
+  box-shadow: 0 6px 16px rgba(39, 174, 96, 0.3);
+}
+
+.edit_channel_success-msg {
+  text-align: center;
+  margin-top: 1rem;
+  color: #27ae60;
+  font-weight: 600;
+}
+
+/* Terms Overlay */
+body.modal-open {
+  overflow: hidden !important;
+}
+
+.edit_channel_overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(10, 10, 10, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000 !important;
+  overflow: hidden !important;
+}
+
+.edit_channel_overlay-content {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  margin: 0 auto;
+  background: #1a1a1a;
+  width: 92%;
+  max-width: 44rem;
+  padding: 2.2rem;
+  border-radius: 1.2rem;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 0 2rem rgba(255, 205, 56, 0.15);
+  animation: fadeIn 0.25s ease;
+  z-index: 6000;
+  align-self: center;
+  color: #eaeaea;
+}
+
+.edit_channel_close-btn {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  margin-left: 0;
+  display: block;
+  background: transparent;
+  border: none;
+  color: #ffcd38;
+  font-size: 1.7rem;
+  cursor: pointer;
+  z-index: 6500;
+}
+
+.edit_channel_overlay-content h1 {
+  color: #ffcd38;
+  margin-bottom: 1rem;
+}
+
+.edit_channel_overlay-text p {
+  color: #dcdcdc;
+}
+
+.edit_channel_close-btn:hover {
+  color: #ffd95f;
+}
+
+.edit_channel_overlay-text {
+  line-height: 1.65;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.edit_channel_overlay-text h2 {
+  margin-top: 1.3rem;
+  font-size: 1.25rem;
+  color: #ffcd38;
+}
+
+.edit_channel_error {
+  color: #ff4d4d;
+  font-size: 13px;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+/* Scrollbar */
+.edit_channel_overlay-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.edit_channel_overlay-content::-webkit-scrollbar-thumb {
+  background: #ffcd38;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .edit_channel_container {
+    padding: 2.2rem;
+    max-width: 38rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .edit_channel_container {
+    padding: 1.7rem;
+    max-width: 90%;
+  }
+
+  .edit_channel_logo {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+
+  .edit_channel_field {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .edit_channel_field a {
+    align-self: flex-end;
+  }
+
+  .edit_channel_submit-btn {
+    padding: 0.9rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,336 @@
+/* Page layout */
+.kids-settings-page {
+  width: 70vw;
+  min-height: auto;
+  padding: 32px 16px;
+  display: flex;
+  justify-content: center;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #f5f7ff, #fdfbff);
+  margin-top: 70px;
+  margin-bottom: 70px;
+}
+
+.kids-settings-container {
+  width: 100%;
+  max-width: 960px;
+}
+
+.kids-settings-header {
+  margin-bottom: 24px;
+}
+
+.kids-settings-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 4px;
+}
+
+.kids-settings-header p {
+  color: #4a5568;
+  font-size: 14px;
+}
+
+/* Alert overrides */
+.kids-alert {
+  display: flex;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+.kids-alert-success {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.kids-alert-error {
+  background-color: #fed7d7;
+  color: #742a2a;
+}
+
+.kids-alert-info {
+  background-color: #bee3f8;
+  color: #2a4365;
+}
+
+/* Cards grid */
+.kids-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.kids-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kids-card-danger {
+  border: 1px solid #fed7d7;
+}
+
+.kids-card-icon {
+  font-size: 26px;
+}
+
+.kids-card-content h2 {
+  font-size: 18px;
+  margin: 0 0 4px 0;
+  color: #1a202c;
+}
+
+.kids-card-content p {
+  font-size: 13px;
+  color: #4a5568;
+  margin: 0;
+}
+
+.kids-card-button {
+  margin-top: 6px;
+  align-self: flex-start;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #4c6fff;
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+  box-shadow: 0 8px 16px rgba(76, 111, 255, 0.25);
+}
+
+.kids-card-button:hover {
+  background: #3b5af4;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(76, 111, 255, 0.3);
+}
+
+.kids-card-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(76, 111, 255, 0.2);
+}
+
+.kids-card-button-outline {
+  background: #fff5f5;
+  color: #c53030;
+  box-shadow: none;
+  border: 1px solid #feb2b2;
+}
+
+.kids-card-button-outline:hover {
+  background: #fed7d7;
+}
+
+/* Modal */
+.kids-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2147483647;
+  padding: 16px;
+}
+
+.kids-modal-content {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.35);
+  overflow: hidden;
+}
+
+.kids-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.kids-modal-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.kids-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.kids-modal-body {
+  padding: 16px 20px 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Forms */
+.kids-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kids-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kids-form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.kids-form-group input,
+.kids-form-group textarea {
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  padding: 8px 10px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kids-form-group input:focus,
+.kids-form-group textarea:focus {
+  border-color: #4c6fff;
+  box-shadow: 0 0 0 1px rgba(76, 111, 255, 0.35);
+}
+
+.kids-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.kids-form-checkbox label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: #4a5568;
+}
+
+.kids-form-checkbox input[type="checkbox"] {
+  margin-top: 2px;
+}
+
+.kids-form-inline {
+  display: flex;
+  gap: 10px;
+}
+
+.kids-form-inline .kids-form-group {
+  flex: 1;
+}
+
+.kids-form-hint {
+  font-size: 12px;
+  color: #718096;
+}
+
+.kids-required {
+  color: #e53e3e;
+}
+
+.kids-form-error input,
+.kids-form-error textarea {
+  border-color: #fc8181;
+}
+
+.kids-error-text {
+  font-size: 12px;
+  color: #c53030;
+}
+
+.kids-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.kids-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.kids-btn-primary {
+  background: #4c6fff;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(76, 111, 255, 0.25);
+}
+
+.kids-btn-primary:hover {
+  background: #3b5af4;
+  transform: translateY(-1px);
+}
+
+.kids-btn-danger {
+  background: #e53e3e;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(229, 62, 62, 0.25);
+}
+
+.kids-btn-danger:hover {
+  background: #c53030;
+  transform: translateY(-1px);
+}
+
+.kids-btn-ghost {
+  background: #edf2f7;
+  color: #2d3748;
+}
+
+.kids-btn-ghost:hover {
+  background: #e2e8f0;
+}
+
+.kids-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .kids-settings-page {
+    padding: 20px 12px 80px;
+  }
+
+  .kids-modal-content {
+    border-radius: 16px;
+  }
+
+  .kids-modal-body {
+    padding: 12px 16px 16px;
+  }
+}
+

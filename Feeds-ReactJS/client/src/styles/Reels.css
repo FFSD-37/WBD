@@ -1,0 +1,455 @@
+
+.reels-container {
+  width: 50vw;
+  height: 100vh;
+  background-color: #000;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.reels-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
+  font-family: sans-serif;
+  background: #000;
+}
+
+.reels-slide {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  scroll-snap-align: start;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #111;
+  margin: auto;
+  transition: all 0.3s ease;
+}
+
+.reels-video {
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
+
+/* Desktop View: When comments are open, shift layout 
+   (Video left, Comments right)
+*/
+@media (min-width: 768px) {
+  .reels-container:has(.reels-comments-active) {
+    width: 70vw;
+  }
+
+  .reels-slide.reels-comments-open .reels-video {
+    width: 50%; /* Shrink video */
+    margin-right: 50%; /* Make space for comments */
+  }
+  
+  .reels-slide.reels-comments-open .reels-sidebar,
+  .reels-slide.reels-comments-open .reels-info {
+    right: 51%;
+  }
+}
+
+/* Sidebar (Right actions: Like, Comment, Share) */
+.reels-sidebar {
+  position: absolute;
+  right: 16px;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.reels-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.reels-btn:active {
+  transform: scale(0.9);
+}
+
+.reels-btn span {
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Info (Bottom Left: Author, Caption) */
+.reels-info {
+  position: absolute;
+  bottom: 24px;
+  left: 16px;
+  width: 70%;
+  color: #fff;
+  z-index: 10;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+.reels-author {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.reels-caption {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Double Click Heart Animation */
+.reels-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 100px;
+  color: rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+}
+
+.reels-show-heart {
+  animation: popHeart 0.6s ease-out forwards;
+}
+
+@keyframes popHeart {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  15% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  30% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -60%) scale(1.2); opacity: 0; }
+}
+
+/* Context Menu (Pop-up from sidebar) */
+.reels-menu {
+  position: absolute;
+  right: 50px;
+  bottom: 0;
+  background: #333;
+  border-radius: 8px;
+  padding: 8px 0;
+  width: 150px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.reels-menu p {
+  color: #fff;
+  padding: 10px 16px;
+  margin: 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.reels-menu p:hover {
+  background: #444;
+}
+
+/* Comments Panel */
+.reels-comments-panel {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #1a1a1a;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  
+  /* Mobile Default: Bottom Sheet */
+  width: 100%;
+  height: 70vh;
+  border-radius: 16px 16px 0 0;
+  transform: translateY(100%); /* Hidden by default */
+}
+
+/* Desktop: Side Panel */
+@media (min-width: 768px) {
+  .reels-comments-panel {
+    width: 50%;
+    height: 100%;
+    top: 0;
+    border-radius: 0;
+    border-left: 1px solid #333;
+    transform: translateX(100%); /* Slide in from right */
+  }
+}
+
+.reels-comments-active {
+  transform: translateY(0); /* Show mobile */
+}
+
+@media (min-width: 768px) {
+  .reels-comments-active {
+    transform: translateX(0); /* Show desktop */
+  }
+}
+
+.reels-comments-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: #fff;
+}
+
+.reels-comments-header {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  font-weight: bold;
+}
+
+.reels-comments-header button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.reels-comments-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.reels-no-comments {
+  text-align: center;
+  color: #888;
+  margin-top: 50px;
+}
+
+/* Single Comment Block */
+.reels-comment-block {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.reels-comment-avatar, .reels-reply-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #555;
+}
+
+.reels-comment-body {
+  flex: 1;
+  font-size: 14px;
+}
+
+.reels-comment-body strong {
+  margin-right: 6px;
+  color: #eee;
+}
+
+.reels-comment-body p {
+  margin: 4px 0;
+  color: #ddd;
+  word-break: break-word;
+}
+
+.reels-reply-btn {
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.reels-reply-btn:hover {
+  color: #aaa;
+}
+
+/* Replies (Nested) */
+.reels-replies {
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 2px solid #333;
+}
+
+.reels-reply-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.reels-reply-avatar {
+  width: 24px;
+  height: 24px;
+}
+
+/* Comment Input Area */
+.reels-comment-input-box {
+  border-top: 1px solid #333;
+  padding: 10px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.reels-replying-to {
+  width: 100%;
+  font-size: 12px;
+  color: #aaa;
+  background: #222;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.reels-replying-to span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.reels-emoji-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.reels-comment-input {
+  flex: 1;
+  background: #333;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 20px;
+  color: #fff;
+  outline: none;
+}
+
+.reels-send-btn {
+  background: none;
+  border: none;
+  color: #3ea6ff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.reels-send-btn:disabled {
+  color: #555;
+}
+
+/* Emoji Picker styling */
+emoji-picker {
+  width: 100%;
+  height: 250px;
+  --background: #1a1a1a;
+  --border-color: #333;
+}
+
+/* =========================================
+   5. Report Modal
+   ========================================= */
+.reels-report-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reels-report-modal {
+  background: #222;
+  color: #fff;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.reels-report-header {
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.reels-report-header button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.reels-report-title {
+  padding: 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.reels-report-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.reels-report-options li {
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.reels-report-options li:hover {
+  background: #333;
+}
+
+.reels-report-options li:last-child {
+  border-bottom: none;
+}

@@ -1,0 +1,344 @@
+openapi: 3.0.3
+info:
+  title: Feeds Admin Server API
+  version: 1.0.0
+  description: Standalone Swagger/OpenAPI documentation for the Admin backend.
+servers:
+  - url: http://localhost:3001
+tags:
+  - name: Health
+  - name: Auth
+  - name: Dashboard
+  - name: Users
+  - name: Channels
+  - name: Reports
+  - name: Feedback
+  - name: Payments
+  - name: Managers
+  - name: Settings
+components:
+  securitySchemes:
+    adminCookieAuth:
+      type: apiKey
+      in: cookie
+      name: auth_token
+  schemas:
+    GenericPayload:
+      type: object
+      additionalProperties: true
+paths:
+  /healthCheck:
+    get:
+      tags: [Health]
+      summary: Health-check endpoint
+      responses:
+        '200':
+          description: Admin server healthy
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login as admin user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                password: { type: string }
+      responses:
+        '200':
+          description: Authenticated successfully
+  /auth/status:
+    get:
+      tags: [Auth]
+      summary: Check authenticated admin session
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Admin auth status
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Logout current admin session
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Logged out
+  /home:
+    get:
+      tags: [Dashboard]
+      summary: Basic home route for authenticated admin
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Home payload
+  /home/getUsers:
+    get:
+      tags: [Dashboard]
+      summary: Get top users for dashboard
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: User leaderboard slice
+  /home/getChannels:
+    get:
+      tags: [Dashboard]
+      summary: Get top channels for dashboard
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Channel leaderboard slice
+  /home/getRevenue:
+    get:
+      tags: [Dashboard]
+      summary: Get total completed revenue
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Revenue aggregate
+  /home/getUserCount:
+    get:
+      tags: [Dashboard]
+      summary: Get combined user and channel count
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Total count
+  /home/getReach:
+    get:
+      tags: [Dashboard]
+      summary: Get activity/reach aggregation
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Reach metrics
+  /home/reportData:
+    get:
+      tags: [Dashboard]
+      summary: Get report overview metrics
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Report stats
+  /home/contentActivityToday:
+    get:
+      tags: [Dashboard]
+      summary: Get today content activity metrics
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Content metrics
+  /user/list:
+    get:
+      tags: [Users]
+      summary: Get all users
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Users list
+  /channel/list:
+    get:
+      tags: [Channels]
+      summary: Get all channels
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Channels list
+  /feedback/list:
+    get:
+      tags: [Feedback]
+      summary: Get all feedback entries
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Feedback list
+  /payment/list:
+    get:
+      tags: [Payments]
+      summary: Get all payment records
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Payments list
+  /report/list:
+    get:
+      tags: [Reports]
+      summary: Get all reports
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Reports list
+  /report/updateReportStatus:
+    post:
+      tags: [Reports]
+      summary: Update report status and notify user
+      security:
+        - adminCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reportId: { type: string }
+                status: { type: string }
+      responses:
+        '200':
+          description: Report status updated
+  /manager/list:
+    get:
+      tags: [Managers]
+      summary: Get all managers with performance summary
+      security:
+        - adminCookieAuth: []
+      responses:
+        '200':
+          description: Managers list
+  /manager/performance/{id}:
+    get:
+      tags: [Managers]
+      summary: Get detailed performance for a manager
+      security:
+        - adminCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Manager performance
+  /manager/create:
+    post:
+      tags: [Managers]
+      summary: Create a new manager account
+      security:
+        - adminCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                password: { type: string }
+                email: { type: string }
+                managerType:
+                  type: string
+                  enum: [users, posts, feedback and revenue]
+      responses:
+        '201':
+          description: Manager created
+  /manager/status/{id}:
+    patch:
+      tags: [Managers]
+      summary: Update manager account status
+      security:
+        - adminCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [active, suspended]
+      responses:
+        '200':
+          description: Manager status updated
+  /manager/type/{id}:
+    patch:
+      tags: [Managers]
+      summary: Update manager scope/type
+      security:
+        - adminCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                managerType:
+                  type: string
+                  enum: [users, posts, feedback and revenue]
+      responses:
+        '200':
+          description: Manager type updated
+  /manager/{id}:
+    delete:
+      tags: [Managers]
+      summary: Delete a manager account
+      security:
+        - adminCookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Manager removed
+  /setting/updateSettings:
+    post:
+      tags: [Settings]
+      summary: Update admin security or profile settings
+      security:
+        - adminCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericPayload'
+      responses:
+        '200':
+          description: Settings updated
+  /setting/verify-2fa:
+    post:
+      tags: [Settings]
+      summary: Verify 2FA OTP for admin account
+      security:
+        - adminCookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                otp: { type: string }
+      responses:
+        '200':
+          description: 2FA verified

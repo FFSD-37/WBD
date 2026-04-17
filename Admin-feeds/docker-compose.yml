@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      context: ./Feeds-admin
+    container_name: feeds-admin-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./Feeds-admin/.env
+    environment:
+      PORT: 3000
+
+  frontend:
+    build:
+      context: ./Feeds-admin-client
+    container_name: feeds-admin-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3000
+    depends_on:
+      - backend
