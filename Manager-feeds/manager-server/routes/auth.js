@@ -62,8 +62,9 @@ auth.post("/login", async (req, res, next) => {
 
       res.cookie("auth_token", token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "none",
+        secure: true,
+        path: "/",
         maxAge: 24 * 60 * 60 * 1000,
       });
 
@@ -140,8 +141,8 @@ auth.get("/status", async (req, res, next) => {
 auth.post("/logout", (req, res) => {
   res.clearCookie("auth_token", {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    sameSite: "none",
+    secure: true,
     path: "/",
   });
 
