@@ -7,7 +7,7 @@ import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { graphqlHTTP } from "express-graphql";
+import { createHandler } from "graphql-http/lib/use/express";
 
 import { ErrorHandler } from "./middlewares/Errorhandler.js";
 import { requireManagerAuth } from "./middlewares/authGuard.js";
@@ -57,17 +57,15 @@ app.use("/auth", auth);
 app.use(requireManagerAuth);
 app.use(
   "/graphql",
-  graphqlHTTP((req) => ({
+  createHandler({
     schema: managerGraphQLSchema,
-    graphiql: true,
-    context: {
-      actor: req.actor,
-    },
-    customFormatErrorFn: (error) => ({
-      message: error.originalError?.message || error.message,
-      statusCode: error.originalError?.statusCode || 500,
+    context: (req) => ({
+      actor: req.raw?.actor || req.actor,
     }),
-  }))
+    formatError: (error) => ({
+      message: error.message,
+    }),
+  })
 );
 app.use("/home", home);
 app.use("/user", requireManagerTypes(["users"]), user);
