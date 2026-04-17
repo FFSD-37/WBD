@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashboard from "./components/Dashboard.jsx";
-import AdminLoginPage from "./components/Login.jsx";
+import Dashboard from "./components/dashboard.jsx";
+import AdminLoginPage from "./components/login.jsx";
 import ProtectedRoute from "./Routes/PrivateRoute.jsx";
 import PublicRoute from "./Routes/PublicRoute.jsx";
 import UsersPage from "./components/UserList.jsx";
@@ -32,7 +32,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/channelList" element={<ChannelsPage />} />
           <Route path="/posts" element={<PostsPage />} />
-          <Route path="/managers" element={< Managers/>} />
+          <Route path="/managers" element={<Managers />} />
         </Route>
       </Routes>
     </Router>
