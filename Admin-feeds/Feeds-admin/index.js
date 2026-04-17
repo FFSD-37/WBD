@@ -27,7 +27,7 @@ export const createApp = () => {
 
   app.use(
     cors({
-      origin: true,
+      origin: "https://wbd-one.vercel.app",
       credentials: true,
     })
   );

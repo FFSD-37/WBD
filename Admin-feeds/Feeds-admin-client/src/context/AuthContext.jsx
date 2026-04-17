@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/status`, { credentials: true });
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/status`, { credentials: 'include' });
                 const data = await res.json();
 
                 setIsAuthenticated(true);
