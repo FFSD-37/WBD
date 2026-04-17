@@ -32,7 +32,7 @@ export const app = express();
 
 app.use(
   cors({
-    origin: "https://wbd-1-ygwe.onrender.com",
+    origin: "https://wbd-qedx.vercel.app",
     credentials: true,
   })
 );
