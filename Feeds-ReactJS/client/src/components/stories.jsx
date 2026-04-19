@@ -25,7 +25,7 @@ ISSUES/Improvements:
 export default function Stories({
   initialStories = null,
   currentUser = null,
-  fetchUrl = "http://localhost:3000/stories",
+  fetchUrl = `${import.meta.env.VITE_SERVER_URL}/stories`,
   // If provided, Stories will automatically open that user's stories
   openUser = null,
   // When `hideGrid` is true the component will only render the viewer (useful when embedding)
@@ -256,7 +256,7 @@ export default function Stories({
   async function toggleLike(storyId, currentlyLiked, setLocalLiked) {
     setLocalLiked(!currentlyLiked);
     try {
-      const res = await fetch(`/stories/liked/${storyId}`, {
+      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/stories/liked/${storyId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

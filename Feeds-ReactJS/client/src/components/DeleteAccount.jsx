@@ -81,7 +81,7 @@ const DeleteAccount = () => {
     setErrors(prev => ({ ...prev, form: '' }));
     
     try {
-      const response = await fetch('/delacc', {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/delacc`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

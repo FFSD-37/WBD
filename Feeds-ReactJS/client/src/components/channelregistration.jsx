@@ -102,7 +102,10 @@ export default function ChannelRegistration() {
     setUploading(true);
 
     try {
-      const authRes = await fetch('/imagKitauth', { credentials: 'include' });
+      const authRes = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/imagKitauth`,
+        { credentials: 'include' },
+      );
       if (!authRes.ok) throw new Error('Auth fetch failed');
       const authData = await authRes.json();
 
@@ -191,7 +194,7 @@ export default function ChannelRegistration() {
     if (pfpFile) formData.append('pfp', pfpFile);
 
     try {
-      const res = await fetch('/signupChannel', {
+      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/signupChannel`, {
         method: 'POST',
         body: formData,
         credentials: 'include',

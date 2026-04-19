@@ -85,7 +85,7 @@ export default function Login() {
     console.log(payload);
 
     try {
-      const res = await fetch('http://localhost:3000/atin_job', {
+      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/atin_job`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
