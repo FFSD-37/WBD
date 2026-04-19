@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './../styles/channelRegistration.css';
+import './../styles/channelregistration.css';
 
 /*
 ISSUES/Improvements:
