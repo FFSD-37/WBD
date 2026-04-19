@@ -709,6 +709,13 @@ function App() {
                   {userPosts.map((p) => (
                     <article key={p._id || p.id} className="info-card">
                       <strong>{p.type || "Post"}</strong>
+                      {p.url ? (
+                        String(p.type || "").toLowerCase() === "reels" ? (
+                          <video src={p.url} controls className="overlay-media" />
+                        ) : (
+                          <img src={p.url} alt={p.content || "User post"} className="overlay-media" />
+                        )
+                      ) : null}
                       <p>{p.content || "-"}</p>
                       <p>Likes: {p.likes || 0}</p>
                     </article>
