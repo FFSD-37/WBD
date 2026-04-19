@@ -101,7 +101,7 @@ app.use("/channel", channelPost);
 // ✅ Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://wbd-zzho.vercel.app",
     credentials: true,
     methods: ["GET", "POST"],
   },
