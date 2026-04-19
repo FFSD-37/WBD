@@ -52,6 +52,28 @@ async function getOtp(email) {
   }
 }
 
+const AUTH_COOKIE_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+const authCookieBaseOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  path: "/",
+  ...(process.env.COOKIE_DOMAIN ? { domain: process.env.COOKIE_DOMAIN } : {}),
+};
+
+const authCookieOptions = {
+  ...authCookieBaseOptions,
+  maxAge: AUTH_COOKIE_MAX_AGE,
+};
+
+const setAuthCookie = (res, name, value) => {
+  res.cookie(name, value, authCookieOptions);
+};
+
+const clearAuthCookie = (res, name) => {
+  res.clearCookie(name, authCookieBaseOptions);
+};
+
 const handleSignup = async (req, res) => {
   try {
     const pass = await bcrypt.hash(req.body.password, 10);
@@ -485,16 +507,8 @@ const updatepass = async (req, res) => {
 
 const handlelogout = async (req, res) => {
   try {
-    res.clearCookie("uuid", {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
-    res.clearCookie("cuid", {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
+    clearAuthCookie(res, "uuid");
+    clearAuthCookie(res, "cuid");
 
     return res.status(200).json({
       success: true,
@@ -972,7 +986,7 @@ const updateUserProfile = async (req, res) => {
       process.env.USER_SECRET,
       "30d"
     );
-    res.cookie("uuid", newToken, { httpOnly: true });
+    setAuthCookie(res, "uuid", newToken);
 
     await ActivityLog.create({
       username,
@@ -2174,8 +2188,8 @@ const handleloginchannel = async (req, res) => {
     );
 
     // Clear user token and set channel token
-    res.cookie("uuid", "", { maxAge: 0 });
-    res.cookie("cuid", token, { httpOnly: true });
+    clearAuthCookie(res, "uuid");
+    setAuthCookie(res, "cuid", token);
 
     // Log channel login
     await ActivityLog.create({
@@ -2355,7 +2369,7 @@ const handleloginsecond = async (req, res) => {
         process.env.USER_SECRET,
         "30d"
       );
-      res.cookie("uuid", token, { httpOnly: true });
+      setAuthCookie(res, "uuid", token);
       return res.json({ success: true });
     } catch (e) {
       console.log(e);
@@ -2394,7 +2408,7 @@ const handleloginsecond = async (req, res) => {
         process.env.USER_SECRET,
         "30d"
       );
-      res.cookie("uuid", token, { httpOnly: true });
+      setAuthCookie(res, "uuid", token);
       return res.json({ success: true });
     } catch (e) {
       console.log(e);
@@ -2428,8 +2442,8 @@ const handleloginsecond = async (req, res) => {
       process.env.USER_SECRET,
       "30d"
     );
-    res.cookie("uuid", "", { maxAge: 0 });
-    res.cookie("cuid", token, { httpOnly: true });
+    clearAuthCookie(res, "uuid");
+    setAuthCookie(res, "cuid", token);
     return res.json({ success: true });
   } catch (e) {
     console.log(e);
@@ -2963,7 +2977,7 @@ const updateChannelProfile = async (req, res) => {
       "30d"
     );
 
-    res.cookie("cuid", token, { httpOnly: true });
+    setAuthCookie(res, "cuid", token);
 
     await ActivityLog.create({
       username: data[0],
