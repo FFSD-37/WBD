@@ -8,10 +8,6 @@ services:
     container_name: manager-backend
     ports:
       - '4000:4000'
-    environment:
-      - NODE_ENV=production
-      - PORT=4000
-      - MONGO_URI=mongodb://mongo:27017/managerdb
     depends_on:
       - mongo
     restart: unless-stopped

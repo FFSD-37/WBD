@@ -58,12 +58,29 @@ connectToMongo();
 app.use(cookieParser());
 
 // ✅ Allow frontend at http://localhost:5173
+const allowedOrigins = [
+  "https://wbd-zzho.vercel.app",
+  "http://localhost:5174",
+  "http://localhost:5173",
+  "http://127.0.0.1:5174",
+  "http://127.0.0.1:5173",
+  "http://localhost:5175",
+  ...(process.env.CORS_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+];
+
 app.use(
   cors({
-    origin: "https://wbd-zzho.vercel.app",
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS blocked origin: ${origin}`));
+    },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -101,7 +118,12 @@ app.use("/channel", channelPost);
 // ✅ Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: "https://wbd-zzho.vercel.app",
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS blocked origin: ${origin}`));
+    },
     credentials: true,
     methods: ["GET", "POST"],
   },
