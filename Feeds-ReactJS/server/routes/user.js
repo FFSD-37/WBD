@@ -2,9 +2,6 @@ import express from "express";
 import {
   handleSignup,
   // handleLogin,
-  sendotp,
-  verifyotp,
-  updatepass,
   handleContact,
   handledelacc,
   handlelogout,
@@ -12,8 +9,6 @@ import {
   handlegetpayment,
   handlegetprofile,
   handleadminlogin,
-  handlefpadmin,
-  adminPassUpdate,
   handlegeteditprofile,
   handlegetcreatepost,
   handlecreatepost,
@@ -120,12 +115,7 @@ const router = express.Router();
 
 // Public routes (no authentication required)
 router.post("/signup", handleSignup);
-router.post("/sendotp", sendotp);
-router.post("/verifyotp", verifyotp);
-router.post("/updatepass", updatepass);
 router.get("/imagKitauth", handleimagKitauth);
-router.get("/fpadmin", handlefpadmin);
-router.post("/updatepassadmin", adminPassUpdate);
 router.post("/fetchUserOverlay", fetchOverlayUser);
 router.post("/atin_job", handleloginsecond);
 router.post("/adminLogin", handleadminlogin);

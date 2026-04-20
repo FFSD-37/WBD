@@ -33,6 +33,18 @@ components:
     GenericPayload:
       type: object
       additionalProperties: true
+    ApiSuccess:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, example: Request completed successfully }
+      additionalProperties: true
+    ApiError:
+      type: object
+      properties:
+        success: { type: boolean, example: false }
+        message: { type: string, example: Something went wrong }
+      additionalProperties: true
     SignupPayload:
       type: object
       properties:
@@ -49,28 +61,6 @@ components:
         parentalPassword: { type: string }
         confirmParentalPassword: { type: string }
         terms: { type: boolean }
-    SendOtpPayload:
-      type: object
-      properties:
-        email: { type: string }
-    VerifyOtpPayload:
-      type: object
-      properties:
-        email: { type: string }
-        otp: { type: string }
-        action: { type: string }
-    UpdatePassPayload:
-      type: object
-      properties:
-        email: { type: string }
-        new_password: { type: string }
-        confirm_password: { type: string }
-    AdminPassUpdatePayload:
-      type: object
-      properties:
-        otp: { type: string }
-        newPassword: { type: string }
-        confirmPassword: { type: string }
     FetchUserOverlayPayload:
       type: object
       properties:
@@ -192,12 +182,6 @@ components:
         content: { type: string }
         type: { type: string }
 paths:
-  /fake:
-    get:
-      tags: [Utility]
-      summary: Demo route that intentionally throws an error
-      responses:
-        '500': { description: Simulated error }
   /signup:
     post:
       tags: [Public Auth]
@@ -208,63 +192,23 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/SignupPayload' }
       responses:
-        '201': { description: Account created }
-  /sendotp:
-    post:
-      tags: [Public Auth]
-      summary: Send OTP for password recovery
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/SendOtpPayload' }
-      responses:
-        '200': { description: OTP sent }
-  /verifyotp:
-    post:
-      tags: [Public Auth]
-      summary: Verify OTP for password recovery
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/VerifyOtpPayload' }
-      responses:
-        '200': { description: OTP verified }
-  /updatepass:
-    post:
-      tags: [Public Auth]
-      summary: Update password using recovery flow
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/UpdatePassPayload' }
-      responses:
-        '200': { description: Password updated }
+        '201':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /imagKitauth:
     get:
       tags: [Utility]
       summary: Get ImageKit authentication payload
       responses:
-        '200': { description: ImageKit auth payload }
-  /fpadmin:
-    get:
-      tags: [Public Auth]
-      summary: Send admin password reset OTP
-      responses:
-        '200': { description: OTP sent }
-  /updatepassadmin:
-    post:
-      tags: [Public Auth]
-      summary: Update admin password using OTP
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/AdminPassUpdatePayload' }
-      responses:
-        '200': { description: Admin password updated }
+        '200':
+          description: ImageKit auth payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /fetchUserOverlay:
     post:
       tags: [Public Auth]
@@ -275,7 +219,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/FetchUserOverlayPayload' }
       responses:
-        '200': { description: Overlay payload }
+        '200':
+          description: Overlay payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /atin_job:
     post:
       tags: [Public Auth]
@@ -286,7 +235,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/AtinJobPayload' }
       responses:
-        '200': { description: Login result }
+        '200':
+          description: Login result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /adminLogin:
     post:
       tags: [Public Auth]
@@ -301,13 +255,23 @@ paths:
                 username: { type: string }
                 password: { type: string }
       responses:
-        '200': { description: Admin login result }
+        '200':
+          description: Admin login result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /healthCheck:
     get:
       tags: [Utility]
       summary: Health-check endpoint
       responses:
-        '200': { description: Server healthy }
+        '200':
+          description: Server healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /:
     get:
       tags: [Account]
@@ -316,7 +280,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '302': { description: Redirect response }
+        '302':
+          description: Redirect response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /verify:
     get:
       tags: [Account]
@@ -325,7 +294,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Session verified }
+        '200':
+          description: Session verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /login:
     get:
       tags: [Account]
@@ -334,7 +308,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Login payload }
+        '200':
+          description: Login payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /logout:
     post:
       tags: [Account]
@@ -343,7 +322,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Logged out }
+        '200':
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /contact:
     post:
       tags: [Account]
@@ -357,7 +341,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ContactPayload' }
       responses:
-        '200': { description: Contact request saved }
+        '200':
+          description: Contact request saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /payment:
     get:
       tags: [Payment]
@@ -366,7 +355,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Payment details }
+        '200':
+          description: Payment details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
     post:
       tags: [Payment]
       summary: Create checkout order
@@ -379,7 +373,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CheckoutPayload' }
       responses:
-        '200': { description: Checkout order created }
+        '200':
+          description: Checkout order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /checkout_razorpay:
     post:
       tags: [Payment]
@@ -392,7 +391,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CheckoutPayload' }
       responses:
-        '200': { description: Checkout created }
+        '200':
+          description: Checkout created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /verify_payment:
     post:
       tags: [Payment]
@@ -405,7 +409,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/VerifyPaymentPayload' }
       responses:
-        '200': { description: Payment verified }
+        '200':
+          description: Payment verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /delacc:
     post:
       tags: [Account]
@@ -421,7 +430,12 @@ paths:
               properties:
                 password: { type: string }
       responses:
-        '200': { description: Account deleted }
+        '200':
+          description: Account deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home:
     get:
       tags: [Feed]
@@ -430,7 +444,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Feed payload }
+        '200':
+          description: Feed payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /stories:
     get:
       tags: [Feed]
@@ -438,7 +457,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Stories payload }
+        '200':
+          description: Stories payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /ads:
     get:
       tags: [Feed]
@@ -446,7 +470,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Ads payload }
+        '200':
+          description: Ads payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /connect:
     get:
       tags: [Connect]
@@ -454,7 +483,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Connect data }
+        '200':
+          description: Connect data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /connect/search:
     get:
       tags: [Connect]
@@ -462,7 +496,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Search results }
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /connect/follow:
     post:
       tags: [Connect]
@@ -475,7 +514,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/FollowEntityPayload' }
       responses:
-        '200': { description: Entity followed }
+        '200':
+          description: Entity followed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /connect/unfollow:
     post:
       tags: [Connect]
@@ -488,7 +532,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/FollowEntityPayload' }
       responses:
-        '200': { description: Entity unfollowed }
+        '200':
+          description: Entity unfollowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /follow/{username}:
     post:
       tags: [Connect]
@@ -501,7 +550,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Follow result }
+        '200':
+          description: Follow result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /follow-request/accept/{username}:
     post:
       tags: [Connect]
@@ -514,7 +568,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Request accepted }
+        '200':
+          description: Request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unfollow/{username}:
     post:
       tags: [Connect]
@@ -527,7 +586,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Unfollow result }
+        '200':
+          description: Unfollow result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unrequest/{username}:
     post:
       tags: [Connect]
@@ -540,7 +604,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Request canceled }
+        '200':
+          description: Request canceled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /friends:
     get:
       tags: [Connect]
@@ -548,7 +617,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Friend list }
+        '200':
+          description: Friend list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /settings:
     get:
       tags: [Account]
@@ -557,7 +631,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Settings payload }
+        '200':
+          description: Settings payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /profile/{username}:
     get:
       tags: [Profile]
@@ -571,7 +650,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: User profile posts }
+        '200':
+          description: User profile posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /report/{username}:
     post:
       tags: [Profile]
@@ -585,7 +669,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Report submitted }
+        '200':
+          description: Report submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /report_channel/{username}:
     post:
       tags: [Channel]
@@ -599,7 +688,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel report submitted }
+        '200':
+          description: Channel report submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /profile/getbasic/{username}:
     get:
       tags: [Profile]
@@ -613,7 +707,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Basic profile payload }
+        '200':
+          description: Basic profile payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /profile/sensitive/{username}:
     get:
       tags: [Profile]
@@ -627,7 +726,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Sensitive profile payload }
+        '200':
+          description: Sensitive profile payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /isfriend/{username}:
     get:
       tags: [Profile]
@@ -640,7 +744,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Relationship payload }
+        '200':
+          description: Relationship payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /edit_profile:
     get:
       tags: [Profile]
@@ -648,7 +757,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Profile edit data }
+        '200':
+          description: Profile edit data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /updateUserDetails:
     post:
       tags: [Profile]
@@ -661,7 +775,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/UpdateUserDetailsPayload' }
       responses:
-        '200': { description: Profile updated }
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /togglePublicPrivate:
     get:
       tags: [Profile]
@@ -669,7 +788,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Visibility toggled }
+        '200':
+          description: Visibility toggled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /block:
     get:
       tags: [Profile]
@@ -677,7 +801,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Blocked users }
+        '200':
+          description: Blocked users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /block/{username}:
     post:
       tags: [Profile]
@@ -690,7 +819,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Block action result }
+        '200':
+          description: Block action result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /chat/{username}:
     get:
       tags: [Chat]
@@ -704,7 +838,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Chat thread }
+        '200':
+          description: Chat thread
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
     delete:
       tags: [Chat]
       summary: Delete chat thread with a user
@@ -717,7 +856,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Chat deleted }
+        '200':
+          description: Chat deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /chat/{username}/seen:
     post:
       tags: [Chat]
@@ -731,7 +875,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Chat marked seen }
+        '200':
+          description: Chat marked seen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /report_chat:
     post:
       tags: [Chat]
@@ -745,7 +894,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ReportChatPayload' }
       responses:
-        '200': { description: Chat report submitted }
+        '200':
+          description: Chat report submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /notifications:
     get:
       tags: [Notifications]
@@ -754,7 +908,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Notification data }
+        '200':
+          description: Notification data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /GetAllNotifications:
     get:
       tags: [Notifications]
@@ -763,7 +922,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Notifications list }
+        '200':
+          description: Notifications list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /notifications/mark-seen:
     post:
       tags: [Notifications]
@@ -772,7 +936,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Notifications marked seen }
+        '200':
+          description: Notifications marked seen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unseen-counts:
     get:
       tags: [Notifications]
@@ -781,7 +950,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Unseen counts }
+        '200':
+          description: Unseen counts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /notification:
     post:
       tags: [Notifications]
@@ -795,7 +969,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ReportPayload' }
       responses:
-        '200': { description: Notification created }
+        '200':
+          description: Notification created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /create_post:
     get:
       tags: [Posts]
@@ -804,7 +983,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Create-post data }
+        '200':
+          description: Create-post data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /create_post_2:
     get:
       tags: [Posts]
@@ -813,7 +997,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Secondary create-post data }
+        '200':
+          description: Secondary create-post data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /createpost:
     post:
       tags: [Posts]
@@ -826,7 +1015,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CreatePostPayload' }
       responses:
-        '200': { description: Post created }
+        '200':
+          description: Post created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /finalSubmit:
     post:
       tags: [Posts]
@@ -840,7 +1034,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/FinalizePostPayload' }
       responses:
-        '200': { description: Finalization result }
+        '200':
+          description: Finalization result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /shareFinalPost:
     post:
       tags: [Posts]
@@ -854,7 +1053,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ShareFinalPostPayload' }
       responses:
-        '200': { description: Post published }
+        '200':
+          description: Post published
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /posts/like:
     post:
       tags: [Posts]
@@ -867,7 +1071,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostLikePayload' }
       responses:
-        '200': { description: Like state updated }
+        '200':
+          description: Like state updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /comment:
     post:
       tags: [Posts]
@@ -881,7 +1090,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CommentPayload' }
       responses:
-        '200': { description: Comment added }
+        '200':
+          description: Comment added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /comment/like/{id}:
     post:
       tags: [Posts]
@@ -895,7 +1109,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Comment like toggled }
+        '200':
+          description: Comment like toggled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /report_post:
     post:
       tags: [Posts]
@@ -909,7 +1128,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ReportPostPayload' }
       responses:
-        '200': { description: Post report submitted }
+        '200':
+          description: Post report submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /delete/{id}:
     post:
       tags: [Posts]
@@ -922,7 +1146,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Post deleted }
+        '200':
+          description: Post deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /archive/{id}:
     post:
       tags: [Posts]
@@ -935,7 +1164,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Post archived }
+        '200':
+          description: Post archived
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unarchive/{id}:
     post:
       tags: [Posts]
@@ -948,7 +1182,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Post unarchived }
+        '200':
+          description: Post unarchived
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unsave/{id}:
     post:
       tags: [Posts]
@@ -961,7 +1200,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Post unsaved }
+        '200':
+          description: Post unsaved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /reels:
     get:
       tags: [Reels]
@@ -970,7 +1214,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Reels feed }
+        '200':
+          description: Reels feed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /likereel:
     post:
       tags: [Reels]
@@ -984,7 +1233,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostLikePayload' }
       responses:
-        '200': { description: Reel liked }
+        '200':
+          description: Reel liked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unlikereel:
     post:
       tags: [Reels]
@@ -998,7 +1252,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostLikePayload' }
       responses:
-        '200': { description: Reel unliked }
+        '200':
+          description: Reel unliked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /savereel:
     post:
       tags: [Reels]
@@ -1012,7 +1271,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostLikePayload' }
       responses:
-        '200': { description: Reel saved }
+        '200':
+          description: Reel saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unsavereel:
     post:
       tags: [Reels]
@@ -1026,7 +1290,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostLikePayload' }
       responses:
-        '200': { description: Reel unsaved }
+        '200':
+          description: Reel unsaved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /commentreel:
     post:
       tags: [Reels]
@@ -1040,7 +1309,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CommentPayload' }
       responses:
-        '200': { description: Reel comment added }
+        '200':
+          description: Reel comment added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /replyreel:
     post:
       tags: [Reels]
@@ -1054,7 +1328,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CommentPayload' }
       responses:
-        '200': { description: Reel reply added }
+        '200':
+          description: Reel reply added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /reelcomments/{id}:
     get:
       tags: [Reels]
@@ -1068,7 +1347,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Reel comments }
+        '200':
+          description: Reel comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /create_channel:
     get:
       tags: [Channel]
@@ -1076,7 +1360,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Channel signup data }
+        '200':
+          description: Channel signup data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /signupChannel:
     post:
       tags: [Channel]
@@ -1089,7 +1378,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/SignupPayload' }
       responses:
-        '200': { description: Channel created }
+        '200':
+          description: Channel created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /postloginchannel:
     post:
       tags: [Channel]
@@ -1102,7 +1396,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/AtinJobPayload' }
       responses:
-        '200': { description: Channel login result }
+        '200':
+          description: Channel login result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /getchannel/{channelName}:
     get:
       tags: [Channel]
@@ -1116,7 +1415,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel details }
+        '200':
+          description: Channel details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /getchannelposts:
     get:
       tags: [Channel]
@@ -1125,7 +1429,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Channel posts }
+        '200':
+          description: Channel posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /edit_channel:
     get:
       tags: [Channel]
@@ -1133,7 +1442,12 @@ paths:
       security:
         - channelCookieAuth: []
       responses:
-        '200': { description: Edit channel data }
+        '200':
+          description: Edit channel data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /updateChannelDetails:
     post:
       tags: [Channel]
@@ -1146,7 +1460,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/UpdateChannelDetailsPayload' }
       responses:
-        '200': { description: Channel updated }
+        '200':
+          description: Channel updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /getAllChannelPosts:
     get:
       tags: [Channel]
@@ -1155,7 +1474,12 @@ paths:
         - userCookieAuth: []
         - channelCookieAuth: []
       responses:
-        '200': { description: Channel posts feed }
+        '200':
+          description: Channel posts feed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channelPost/{id}:
     get:
       tags: [Channel]
@@ -1169,7 +1493,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel post payload }
+        '200':
+          description: Channel post payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/like:
     post:
       tags: [Channel]
@@ -1183,7 +1512,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ChannelLikePayload' }
       responses:
-        '200': { description: Like state updated }
+        '200':
+          description: Like state updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/save:
     post:
       tags: [Channel]
@@ -1197,7 +1531,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ChannelSavePayload' }
       responses:
-        '200': { description: Save state updated }
+        '200':
+          description: Save state updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/comment:
     post:
       tags: [Channel]
@@ -1211,7 +1550,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ChannelCommentPayload' }
       responses:
-        '200': { description: Comment added }
+        '200':
+          description: Comment added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/comment/replies/{commentId}:
     get:
       tags: [Channel]
@@ -1225,7 +1569,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Replies payload }
+        '200':
+          description: Replies payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /follow_channel/{channelName}:
     post:
       tags: [Channel]
@@ -1238,7 +1587,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel followed }
+        '200':
+          description: Channel followed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /unfollow_channel/{channelName}:
     post:
       tags: [Channel]
@@ -1251,7 +1605,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel unfollowed }
+        '200':
+          description: Channel unfollowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/archive/{postId}:
     post:
       tags: [Channel]
@@ -1264,7 +1623,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel post archived }
+        '200':
+          description: Channel post archived
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/unarchive/{postId}:
     post:
       tags: [Channel]
@@ -1277,7 +1641,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel post unarchived }
+        '200':
+          description: Channel post unarchived
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/delete/{postId}:
     delete:
       tags: [Channel]
@@ -1290,7 +1659,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Channel post deleted }
+        '200':
+          description: Channel post deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/settings:
     get:
       tags: [Channel]
@@ -1298,7 +1672,12 @@ paths:
       security:
         - channelCookieAuth: []
       responses:
-        '200': { description: Channel settings }
+        '200':
+          description: Channel settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/deactivate:
     post:
       tags: [Channel]
@@ -1311,7 +1690,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostActionPayload' }
       responses:
-        '200': { description: Channel deactivated }
+        '200':
+          description: Channel deactivated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/delete-account:
     delete:
       tags: [Channel]
@@ -1319,7 +1703,12 @@ paths:
       security:
         - channelCookieAuth: []
       responses:
-        '200': { description: Channel account deleted }
+        '200':
+          description: Channel account deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/post:
     post:
       tags: [Channel]
@@ -1332,7 +1721,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ChannelPostPayload' }
       responses:
-        '200': { description: Channel post uploaded }
+        '200':
+          description: Channel post uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /channel/categories:
     get:
       tags: [Channel]
@@ -1340,7 +1734,12 @@ paths:
       security:
         - channelCookieAuth: []
       responses:
-        '200': { description: Channel categories }
+        '200':
+          description: Channel categories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /checkParentPassword:
     post:
       tags: [Kids]
@@ -1356,7 +1755,12 @@ paths:
               properties:
                 password: { type: string }
       responses:
-        '200': { description: Password verification result }
+        '200':
+          description: Password verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /kidshome:
     get:
       tags: [Kids]
@@ -1364,7 +1768,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Kids home feed }
+        '200':
+          description: Kids home feed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /kids/change-password:
     post:
       tags: [Kids]
@@ -1377,7 +1786,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/KidsChangePasswordPayload' }
       responses:
-        '200': { description: Password changed }
+        '200':
+          description: Password changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /kids/change-parental-password:
     post:
       tags: [Kids]
@@ -1390,7 +1804,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/KidsParentalPasswordPayload' }
       responses:
-        '200': { description: Parental password changed }
+        '200':
+          description: Parental password changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /kids/time-control:
     get:
       tags: [Kids]
@@ -1398,7 +1817,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Time-control settings }
+        '200':
+          description: Time-control settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
     post:
       tags: [Kids]
       summary: Update kids time-control settings
@@ -1410,7 +1834,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/KidsTimeControlPayload' }
       responses:
-        '200': { description: Time-control updated }
+        '200':
+          description: Time-control updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /kids/deactivate:
     post:
       tags: [Kids]
@@ -1423,7 +1852,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostActionPayload' }
       responses:
-        '200': { description: Kids account deactivated }
+        '200':
+          description: Kids account deactivated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /getCoins:
     get:
       tags: [Utility]
@@ -1431,7 +1865,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Coin balance }
+        '200':
+          description: Coin balance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /games/reward:
     post:
       tags: [Utility]
@@ -1439,7 +1878,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Reward claimed }
+        '200':
+          description: Reward claimed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /dailyUsage:
     get:
       tags: [Utility]
@@ -1447,7 +1891,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Daily usage data }
+        '200':
+          description: Daily usage data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /activityLog:
     get:
       tags: [Utility]
@@ -1455,7 +1904,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Activity log data }
+        '200':
+          description: Activity log data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /post/{id}:
     get:
       tags: [Posts]
@@ -1466,7 +1920,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Post payload }
+        '200':
+          description: Post payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
     delete:
       tags: [Posts]
       summary: Delete post by public id
@@ -1478,7 +1937,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Post deleted }
+        '200':
+          description: Post deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /post:
     post:
       tags: [Posts]
@@ -1491,19 +1955,34 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PostUploadPayload' }
       responses:
-        '200': { description: Post uploaded }
+        '200':
+          description: Post uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /post/suggestedPost/get:
     get:
       tags: [Posts]
       summary: Get suggested user posts
       responses:
-        '200': { description: Suggested posts }
+        '200':
+          description: Suggested posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /post/suggested/reels:
     get:
       tags: [Posts]
       summary: Get suggested reels
       responses:
-        '200': { description: Suggested reels }
+        '200':
+          description: Suggested reels
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /post/liked/{id}:
     post:
       tags: [Posts]
@@ -1516,7 +1995,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Like toggled }
+        '200':
+          description: Like toggled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /post/saved/{id}:
     post:
       tags: [Posts]
@@ -1529,7 +2013,12 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Save toggled }
+        '200':
+          description: Save toggled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home/getFriends:
     get:
       tags: [Feed]
@@ -1537,7 +2026,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Friends list }
+        '200':
+          description: Friends list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home/getAllPosts:
     get:
       tags: [Feed]
@@ -1545,7 +2039,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Suggested posts }
+        '200':
+          description: Suggested posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home/ads:
     get:
       tags: [Feed]
@@ -1553,7 +2052,12 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Ads payload }
+        '200':
+          description: Ads payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home/userpost_comments:
     post:
       tags: [Feed]
@@ -1566,7 +2070,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CommentPayload' }
       responses:
-        '200': { description: Comments payload }
+        '200':
+          description: Comments payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home/userpost_reply:
     post:
       tags: [Feed]
@@ -1579,7 +2088,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CommentPayload' }
       responses:
-        '200': { description: Reply created }
+        '200':
+          description: Reply created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home/comment_report:
     post:
       tags: [Feed]
@@ -1592,7 +2106,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/ReportPostPayload' }
       responses:
-        '200': { description: Comment reported }
+        '200':
+          description: Comment reported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
   /home/getChannels:
     get:
       tags: [Feed]
@@ -1600,4 +2119,9 @@ paths:
       security:
         - userCookieAuth: []
       responses:
-        '200': { description: Channel list }
+        '200':
+          description: Channel list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
