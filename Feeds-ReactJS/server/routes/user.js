@@ -134,6 +134,7 @@ router.get("/", (req, res) => {
   res.redirect("/login");
 });
 
+// comment added to test ci-cd
 
 router.get("/home", handlegetHome);
 
