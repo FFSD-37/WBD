@@ -3,6 +3,8 @@ import channelPost from "../models/channelPost.js";
 import Channel from "../models/channelSchema.js";
 import { rewardUserByUsername } from "../services/coinRewards.js";
 
+// test
+
 const categories = [
   "Entertainment",
   "Comedy",

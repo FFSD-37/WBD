@@ -6,6 +6,8 @@ services:
       context: ./manager-server
       dockerfile: Dockerfile
     container_name: manager-backend
+    env_file:
+      - ./manager-server/.env
     ports:
       - '4000:4000'
     depends_on:
